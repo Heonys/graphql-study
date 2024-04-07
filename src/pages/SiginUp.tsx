@@ -1,5 +1,4 @@
 import InputForm from '@/components/InputForm';
-import axios from 'axios';
 import { useForm } from 'react-hook-form';
 
 export type FormType = {
@@ -13,11 +12,6 @@ const SiginUp = () => {
   const { register, handleSubmit } = useForm<FormType>();
   const onHandleSubmit = (value: FormType) => {
     console.log(value);
-    axios.post(`${process.env.REACT_APP_API_URL}/api/users`, {
-      email: '',
-      nickname: '',
-      password: '',
-    });
   };
 
   return (
