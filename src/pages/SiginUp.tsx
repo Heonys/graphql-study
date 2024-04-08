@@ -1,41 +1,22 @@
 import InputForm from '@/components/InputForm';
-import useKeypad from '@/hooks/useKeypad';
-import { useForm } from 'react-hook-form';
 
 export type FormType = {
-  email: string;
-  nickname: string;
-  pw: string;
-  pwConfirm: string;
+  name: string;
+  password: string;
+  passwordCheck: string;
 };
 
 const SiginUp = () => {
-  const { register, handleSubmit } = useForm<FormType>();
-  const { data } = useKeypad();
-
-  const onHandleSubmit = async () => {
-    console.log(data);
-  };
+  const onHandleSubmit = async () => {};
 
   return (
-    <form className="flex flex-col gap-2 items-center" onSubmit={handleSubmit(onHandleSubmit)}>
-      <InputForm label="이메일" type="email" placeholder="" error="" register={register('email')} />
-      <InputForm label="닉네임" placeholder="" error="" register={register('nickname')} />
-      <InputForm
-        type="password"
-        label="패스워드"
-        placeholder=""
-        error=""
-        register={register('pw')}
-      />
-      <InputForm
-        label="패스워드 확인"
-        type="password"
-        placeholder=""
-        error=""
-        register={register('pwConfirm')}
-      />
-      <button className="btn btn-primary">회원가입</button>
+    <form className="flex flex-col gap-2 items-center mt-20 h-full" onSubmit={onHandleSubmit}>
+      {/* <InputForm label="이름"/> */}
+      <InputForm id={1} label="패스워드" type="password" />
+      <InputForm id={2} label="패스워드 확인" type="password" />
+      <button type="submit" className="btn btn-neutral w-full">
+        회원가입
+      </button>
     </form>
   );
 };

@@ -1,29 +1,54 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import useKeypad from '@/hooks/useKeypad';
+import KeypadGrid from './KeypadGrid';
+import { useEffect, useState } from 'react';
 
 type Props = {
   label: string;
-  placeholder: string;
-  error: string;
-  register: UseFormRegisterReturn<any>;
+  id: number;
   type?: React.ComponentPropsWithoutRef<'input'>['type'];
 };
 
-const InputForm = ({ label, placeholder, error, register, type }: Props) => {
+const InputForm = ({ label, type, id }: Props) => {
+  const { data } = useKeypad(id);
+  const [text, setText] = useState('');
+  const [showKeypad, setShowKeypad] = useState(false);
+
+  const onChangeText = setText;
+
+  const onCloseKeypad = () => {
+    setShowKeypad(false);
+  };
+
+  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+    e.stopPropagation();
+    setShowKeypad(true);
+  };
+
+  useEffect(() => {
+    document.addEventListener('focusin', onCloseKeypad);
+    document.addEventListener('click', onCloseKeypad);
+
+    return () => {
+      document.removeEventListener('focusin', onCloseKeypad);
+      document.removeEventListener('click', onCloseKeypad);
+    };
+  }, []);
+
   return (
-    <label className="form-control w-full max-w-xs">
+    <label className="form-control w-full relative">
       <div className="label">
-        <span className="label-text font-bold text-lg">{label}</span>
+        <span className="label-text font-bold">{label}</span>
       </div>
       <input
         type={type}
-        placeholder={placeholder}
-        className="input input-bordered w-full max-w-xs"
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        className="input input-md input-bordered w-full"
+        readOnly
         required
-        {...register}
+        onClick={handleClick}
       />
-      <div className="label">
-        <span className="label-text-alt text-red-400 font-semibold">{error}</span>
-      </div>
+      {data && showKeypad && <KeypadGrid createKeypad={data} onChangeText={onChangeText} />}
     </label>
   );
 };
