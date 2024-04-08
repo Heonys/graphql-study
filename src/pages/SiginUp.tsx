@@ -1,4 +1,5 @@
 import InputForm from '@/components/InputForm';
+import useKeypad from '@/hooks/useKeypad';
 import { useForm } from 'react-hook-form';
 
 export type FormType = {
@@ -10,8 +11,10 @@ export type FormType = {
 
 const SiginUp = () => {
   const { register, handleSubmit } = useForm<FormType>();
-  const onHandleSubmit = (value: FormType) => {
-    console.log(value);
+  const { data } = useKeypad();
+
+  const onHandleSubmit = async () => {
+    console.log(data);
   };
 
   return (

@@ -1,30 +1,27 @@
-import { useQuery, gql } from '@apollo/client';
+import InputForm from '@/components/InputForm';
+import { useForm } from 'react-hook-form';
 
-const GET_LOCATIONS = gql`
-  query GetLocations {
-    locations {
-      id
-      name
-      description
-      photo
-    }
-  }
-`;
+type FormType = {
+  email: string;
+  password: string;
+};
+
 const Login = () => {
-  const { error, loading, data } = useQuery(GET_LOCATIONS);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error :(</p>;
-
-  return data.locations.map(({ id, name, description, photo }) => (
-    <div key={id}>
-      <h3>{name}</h3>
-      <img width="400" height="250" alt="location-reference" src={`${photo}`} />
-      <br />
-      <b>About this location:</b>
-      <p>{description}</p>
-      <br />
-    </div>
-  ));
+  const { register, handleSubmit } = useForm<FormType>();
+  const onHandleSubmit = async () => {};
+  return (
+    <form className="flex flex-col gap-2 items-center" onSubmit={handleSubmit(onHandleSubmit)}>
+      <InputForm label="이메일" type="email" placeholder="" error="" register={register('email')} />
+      <InputForm
+        type="password"
+        label="패스워드"
+        placeholder=""
+        error=""
+        register={register('password')}
+      />
+      <button className="btn btn-primary">회원가입</button>
+    </form>
+  );
 };
 
 export default Login;

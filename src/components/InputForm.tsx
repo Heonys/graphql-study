@@ -1,11 +1,10 @@
-import { FormType } from '@/pages/SiginUp';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {
   label: string;
   placeholder: string;
   error: string;
-  register: UseFormRegisterReturn<keyof FormType>;
+  register: UseFormRegisterReturn<any>;
   type?: React.ComponentPropsWithoutRef<'input'>['type'];
 };
 
