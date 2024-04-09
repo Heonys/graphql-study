@@ -1,15 +1,18 @@
+import { useEffect, useState } from 'react';
+import { UseFormRegisterReturn } from 'react-hook-form';
 import useKeypad from '@/hooks/useKeypad';
 import KeypadGrid from './KeypadGrid';
-import { useEffect, useState } from 'react';
-import { Coords } from './Keypad';
+import { FormType } from '@/pages/SiginUp';
+import { Coords } from '@/types';
 
 type Props = {
   label: string;
   id: number;
+  register: UseFormRegisterReturn<keyof FormType>;
   type?: React.ComponentPropsWithoutRef<'input'>['type'];
 };
 
-const PasswordForm = ({ label, type, id }: Props) => {
+const PasswordForm = ({ label, type, id, register }: Props) => {
   const { data, refetch } = useKeypad(id);
   const [coordsArray, setCoordsArray] = useState<Coords[]>([]);
   const [showKeypad, setShowKeypad] = useState(false);
@@ -24,6 +27,10 @@ const PasswordForm = ({ label, type, id }: Props) => {
     e.stopPropagation();
     setShowKeypad(true);
   };
+
+  useEffect(() => {
+    register.onChange({ target: { value: coordsArray, name: register.name } });
+  }, [coordsArray, register]);
 
   useEffect(() => {
     document.addEventListener('focusin', onCloseKeypad);
@@ -43,8 +50,8 @@ const PasswordForm = ({ label, type, id }: Props) => {
       <input
         type={type}
         value={displayAsterisk()}
-        className="input input-md input-bordered w-full"
         readOnly
+        className="input input-md input-bordered w-full"
         required
         onClick={handleClick}
       />

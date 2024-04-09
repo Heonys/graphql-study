@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { CreateKeypad } from '@/api';
-import KeyPad, { Coords } from './Keypad';
+import { Coords } from '@/types';
+import KeyPad from './Keypad';
 
 type Props = {
   createKeypad: CreateKeypad;
