@@ -1,5 +1,6 @@
 import { Button } from './Button';
 import parse from 'html-react-parser';
+
 export type Coords = { uid: string; x: number; y: number };
 
 type Props = {

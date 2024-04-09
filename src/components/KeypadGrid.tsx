@@ -1,11 +1,12 @@
 import React, { Dispatch, SetStateAction } from 'react';
-
 import { CreateKeypad } from '@/api';
 import KeyPad, { Coords } from './Keypad';
 
 type Props = {
   createKeypad: CreateKeypad;
-  onChangeText: Dispatch<SetStateAction<string>>;
+  onChangeText: Dispatch<SetStateAction<Coords[]>>;
+  onCloseKeypad: () => void;
+  refetch: () => void;
 };
 
 const sideButton = [
@@ -14,10 +15,37 @@ const sideButton = [
   '<div data-testid="check">확인<div>',
 ];
 
-const KeypadGrid = ({ createKeypad, onChangeText }: Props) => {
+const KeypadGrid = ({ createKeypad, onChangeText, onCloseKeypad, refetch }: Props) => {
+  const [blank, shuffle] = createKeypad.keypad.functionKeys.map(({ rowIndex, columnIndex }) => {
+    return { x: rowIndex, y: columnIndex };
+  });
+
   const onClickButton = (coords: Coords) => {
-    console.log(coords);
-    onChangeText((prev) => prev + '*');
+    const { x, y } = coords;
+    if (blank.x === x && blank.y === y) return;
+    if (shuffle.x === x && shuffle.y === y) {
+      onChangeText([]);
+      return refetch();
+    }
+
+    onChangeText((prev) => {
+      if (prev.length > 5) return prev;
+      return [...prev, coords];
+    });
+  };
+
+  const onClickSubButton = (coords: Coords) => {
+    switch (coords.x) {
+      case 0: // 삭제
+        onChangeText((prev) => prev.slice(0, -1));
+        break;
+      case 1: // 전체삭제
+        onChangeText([]);
+        break;
+      case 2: // 확인
+        onCloseKeypad();
+        break;
+    }
   };
 
   return (
@@ -46,7 +74,7 @@ const KeypadGrid = ({ createKeypad, onChangeText }: Props) => {
                   y: 4,
                 }}
                 primary={rowIndex === 2}
-                onClick={onClickButton}
+                onClick={onClickSubButton}
               />
             </React.Fragment>
           );
