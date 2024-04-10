@@ -23,7 +23,7 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
     setShowKeypad(false);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
     e.stopPropagation();
     setShowKeypad(true);
   };
@@ -50,6 +50,7 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
         <input
           type={type}
           value={displayAsterisk()}
+          data-testid={`input-${id}`}
           readOnly
           className="input input-md input-bordered w-full"
           required

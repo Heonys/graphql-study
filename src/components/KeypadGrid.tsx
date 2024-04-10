@@ -85,8 +85,8 @@ const KeypadGrid = ({ createKeypad, onChangeText, onCloseKeypad, refetch }: Prop
         })}
       </ul>
       <div className="mt-3 font-sans">
-        <div>비밀번호를 입력해주세요</div>
-        <div>6자리로 입력해주세요</div>
+        <div>{`비밀번호를 입력해주세요`}</div>
+        <div>{`6자리로 입력해주세요`}</div>
       </div>
     </div>
   );
