@@ -1,6 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { CreateKeypad } from '@/api';
-import { Coords } from '@/types';
+import { Coords, CreateKeypad } from '@/types';
 import KeyPad from './Keypad';
 
 type Props = {
@@ -50,7 +49,11 @@ const KeypadGrid = ({ createKeypad, onChangeText, onCloseKeypad, refetch }: Prop
   };
 
   return (
-    <div className="border-2 p-4 shadow-lg z-50 bg-white absolute w-full left-[50%] -translate-x-[50%] top-[100%]">
+    <div
+      className="border-2 p-4 shadow-lg z-50 bg-white absolute w-full left-[50%] -translate-x-[50%] top-[100%]"
+      onClick={(e) => e.stopPropagation()}
+      onFocusCapture={(e) => e.stopPropagation()}
+    >
       <ul className="grid grid-cols-5 grid-rows-3 gap-3">
         {createKeypad.keypad.svgGrid.map((row, rowIndex) => {
           return (

@@ -1,4 +1,4 @@
-import { FormType } from '@/pages/SiginUp';
+import { FormType } from '@/types';
 import { UseFormRegisterReturn } from 'react-hook-form';
 
 type Props = {

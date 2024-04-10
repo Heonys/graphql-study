@@ -10,13 +10,12 @@ type Props = {
 };
 
 const KeyPad = ({ value, onClick, coords, primary = false }: Props) => {
-  const handleClick = (e: React.FocusEvent<HTMLButtonElement>) => {
-    e.stopPropagation();
-    onClick(coords);
-  };
-
   return (
-    <Button variant={primary ? 'primary' : 'secondary'} onFocus={handleClick}>
+    <Button
+      variant={primary ? 'primary' : 'secondary'}
+      type="button"
+      onClick={() => onClick(coords)}
+    >
       <div className="text-sm whitespace-nowrap overflow-hidden overflow-ellipsis flex justify-center items-center">
         {parse(value)}
       </div>

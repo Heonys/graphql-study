@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { UseFormRegisterReturn } from 'react-hook-form';
 import useKeypad from '@/hooks/useKeypad';
 import KeypadGrid from './KeypadGrid';
-import { FormType } from '@/pages/SiginUp';
-import { Coords } from '@/types';
+import { Coords, FormType } from '@/types';
 
 type Props = {
   label: string;
@@ -16,6 +15,7 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
   const { data, refetch } = useKeypad(id);
   const [coordsArray, setCoordsArray] = useState<Coords[]>([]);
   const [showKeypad, setShowKeypad] = useState(false);
+  const ref = useRef<HTMLDivElement>(null);
 
   const displayAsterisk = () => '*'.repeat(coordsArray.length);
 
@@ -23,7 +23,7 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
     setShowKeypad(false);
   };
 
-  const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
+  const handleClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation();
     setShowKeypad(true);
   };
@@ -35,7 +35,6 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
   useEffect(() => {
     document.addEventListener('focusin', onCloseKeypad);
     document.addEventListener('click', onCloseKeypad);
-
     return () => {
       document.removeEventListener('focusin', onCloseKeypad);
       document.removeEventListener('click', onCloseKeypad);
@@ -43,18 +42,20 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
   }, []);
 
   return (
-    <label className="form-control w-full relative">
-      <div className="label">
-        <span className="label-text font-bold">{label}</span>
-      </div>
-      <input
-        type={type}
-        value={displayAsterisk()}
-        readOnly
-        className="input input-md input-bordered w-full"
-        required
-        onClick={handleClick}
-      />
+    <div className="w-full relative" ref={ref}>
+      <label className="form-control w-full">
+        <div className="label">
+          <span className="label-text font-bold">{label}</span>
+        </div>
+        <input
+          type={type}
+          value={displayAsterisk()}
+          readOnly
+          className="input input-md input-bordered w-full"
+          required
+          onClick={handleClick}
+        />
+      </label>
       {data && showKeypad && (
         <KeypadGrid
           createKeypad={data}
@@ -63,7 +64,7 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
           refetch={refetch}
         />
       )}
-    </label>
+    </div>
   );
 };
 
