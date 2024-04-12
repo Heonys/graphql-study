@@ -6,6 +6,11 @@ export type FormType = {
   confirmPassword: Coords[];
 };
 
+export type KeypadInputResult = {
+  uid: string;
+  coords: Array<{ x: number; y: number }>;
+};
+
 export interface CreateKeypad {
   uid: string;
   keypad: {

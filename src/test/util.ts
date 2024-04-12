@@ -4,3 +4,9 @@ export function mockConsoleError() {
 
   return consoleMock;
 }
+
+export async function delay(ms: number) {
+  return new Promise((resolve) => {
+    setTimeout(resolve, ms);
+  });
+}

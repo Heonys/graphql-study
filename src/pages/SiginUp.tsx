@@ -3,9 +3,13 @@ import { submitPassword } from '@/api';
 import InputForm from '@/components/InputForm';
 import PasswordForm from '@/components/PasswordForm';
 import type { FormType } from '@/types';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { formSchema } from '@/utils/validation';
 
 const SiginUp = () => {
-  const { register, handleSubmit } = useForm<FormType>();
+  const { register, handleSubmit } = useForm<FormType>({
+    resolver: zodResolver(formSchema),
+  });
 
   const onHandleSubmit = async (value: FormType) => {
     try {

@@ -22,9 +22,14 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
   const onCloseKeypad = () => {
     setShowKeypad(false);
   };
+  const onConfirm = () => {
+    if (coordsArray.length < 6) setCoordsArray([]);
+    setShowKeypad(false);
+  };
 
   const handleClick = (e: React.MouseEvent<HTMLInputElement>) => {
     e.stopPropagation();
+    setCoordsArray([]);
     setShowKeypad(true);
   };
 
@@ -50,7 +55,6 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
         <input
           type={type}
           value={displayAsterisk()}
-          data-testid={`input-${id}`}
           readOnly
           className="input input-md input-bordered w-full"
           required
@@ -61,7 +65,7 @@ const PasswordForm = ({ label, type, id, register }: Props) => {
         <KeypadGrid
           createKeypad={data}
           onChangeText={setCoordsArray}
-          onCloseKeypad={onCloseKeypad}
+          onCloseKeypad={onConfirm}
           refetch={refetch}
         />
       )}
